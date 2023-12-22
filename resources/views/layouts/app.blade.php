@@ -20,6 +20,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/locations">Locations</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trips">Trips</a>
+                    </li>
                 </ul>
             </div>
         </div>

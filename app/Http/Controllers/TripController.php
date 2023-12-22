@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Trip;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -11,7 +13,8 @@ class TripController extends Controller
      */
     public function index()
     {
-        //
+        $trips = Trip::all();
+        return view('trips.index', compact('trips'));
     }
 
     /**
@@ -19,7 +22,8 @@ class TripController extends Controller
      */
     public function create()
     {
-        //
+        $locations = Location::all();
+        return view('trips.create', compact('locations'));
     }
 
     /**
@@ -27,7 +31,16 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'date' => 'required|date',
+            'from_location_id' => 'required|exists:locations,id',
+            'to_location_id' => 'required|exists:locations,id',
+            'price' => 'required|numeric',
+        ]);
+
+        Trip::create($validatedData);
+
+        return redirect()->route('trips.index')->with('success', 'Trip created successfully');
     }
 
     /**
@@ -43,7 +56,9 @@ class TripController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $trip = Trip::findOrFail($id);
+        $locations = Location::all();
+        return view('trips.edit', compact('trip', 'locations'));
     }
 
     /**
@@ -51,7 +66,18 @@ class TripController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         $trip = Trip::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'date' => 'required|date',
+            'from_location_id' => 'required|exists:locations,id',
+            'to_location_id' => 'required|exists:locations,id',
+            'price' => 'required|numeric',
+        ]);
+
+        $trip->update($validatedData);
+
+        return redirect()->route('trips.index')->with('success', 'Trip updated successfully');
     }
 
     /**
@@ -59,6 +85,9 @@ class TripController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $trip = Trip::findOrFail($id);
+        $trip->delete();
+
+        return redirect()->route('trips.index')->with('success', 'Trip deleted successfully');
     }
 }
