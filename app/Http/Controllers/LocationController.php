@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -11,7 +12,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::all();
+        return view('locations.index', compact('locations'));
     }
 
     /**
@@ -19,7 +21,7 @@ class LocationController extends Controller
      */
     public function create()
     {
-        //
+        return view('locations.create');
     }
 
     /**
@@ -27,7 +29,13 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255|unique:locations,name',
+        ]);
+
+        Location::create($validatedData);
+
+        return redirect()->route('locations.index')->with('success', 'Location created successfully');
     }
 
     /**
@@ -43,7 +51,8 @@ class LocationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $location = Location::findOrFail($id);
+        return view('locations.edit', compact('location'));
     }
 
     /**
@@ -51,7 +60,15 @@ class LocationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $location = Location::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255|unique:locations,name,' . $location->id,
+        ]);
+
+        $location->update($validatedData);
+
+        return redirect()->route('locations.index')->with('success', 'Location updated successfully');
     }
 
     /**
@@ -59,6 +76,9 @@ class LocationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $location = Location::findOrFail($id);
+        $location->delete();
+
+        return redirect()->route('locations.index')->with('success', 'Location deleted successfully');
     }
 }
