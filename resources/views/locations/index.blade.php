@@ -10,13 +10,15 @@
     <table class="table">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($locations as $location)
+            @foreach ($locations as $index => $location)
                 <tr>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $location->name }}</td>
                     <td>
                         <a href="{{ route('locations.edit', $location->id) }}" class="btn btn-warning btn-sm">Edit</a>

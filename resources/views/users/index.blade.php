@@ -9,6 +9,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -17,8 +18,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($users as $user)
+            @foreach ($users as $index => $user)
                 <tr>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->phone }}</td>
@@ -35,6 +37,4 @@
             @endforeach
         </tbody>
     </table>
-
-    <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
 @endsection

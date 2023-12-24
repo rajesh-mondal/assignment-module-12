@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SeatAllocationController;
 
@@ -17,6 +18,7 @@ use App\Http\Controllers\SeatAllocationController;
 |
 */
 
+Route::get('/', [SalesController::class, 'index'])->name('dashboard.index');
 Route::resource('users', UserController::class);
 Route::resource('locations', LocationController::class);
 Route::resource('trips', TripController::class);

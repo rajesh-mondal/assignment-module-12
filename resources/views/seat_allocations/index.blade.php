@@ -21,8 +21,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>#</th>
                 <th>User</th>
+                <th>Phone No.</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Date</th>
@@ -32,10 +33,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($seatAllocations as $seatAllocation)
+            @foreach ($seatAllocations as $index => $seatAllocation)
                 <tr>
-                    <td>{{ $seatAllocation->id }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $seatAllocation->user->name }}</td>
+                    <td>{{ $seatAllocation->user->phone }}</td>
                     <td>{{ $seatAllocation->trip->fromLocation->name }}</td>
                     <td>{{ $seatAllocation->trip->toLocation->name }}</td>
                     <td>{{ $seatAllocation->trip->date }}</td>

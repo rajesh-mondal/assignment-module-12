@@ -9,6 +9,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Date</th>
                 <th>From</th>
                 <th>To</th>
@@ -18,8 +19,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($trips as $trip)
+            @foreach ($trips as $index => $trip)
                 <tr>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $trip->date }}</td>
                     <td>{{ $trip->fromLocation->name }}</td>
                     <td>{{ $trip->toLocation->name }}</td>
