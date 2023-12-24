@@ -25,11 +25,13 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="trip_id" class="form-label">Trip:</label>
-            <select class="form-control" name="trip_id" required>
-                @foreach ($trips as $trip)
-                    <option value="{{ $trip->id }}">{{ $trip->id }}</option>
+        <div class="form-group">
+            <label for="trip_id">Select Trip</label>
+            <select name="trip_id" id="trip_id" class="form-control">
+                @foreach ($tripDetails as $trip)
+                    <option value="{{ $trip->id }}">
+                        {{ $trip->fromLocation->name }} to {{ $trip->toLocation->name }} on {{ $trip->date }} (Price: {{ $trip->price }})
+                    </option>
                 @endforeach
             </select>
         </div>

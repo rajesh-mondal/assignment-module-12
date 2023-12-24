@@ -9,7 +9,7 @@ class Trip extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date', 'time', 'from_location_id', 'to_location_id', 'price'];
+    protected $fillable = ['date', 'time', 'from_location_id', 'to_location_id', 'price', 'available_seats'];
 
     public function fromLocation()
     {

@@ -25,7 +25,9 @@ class SeatAllocationController extends Controller
     {
         $trips = Trip::all();
         $users = User::all();
-        return view('seat_allocations.create', compact('trips', 'users'));
+
+        $tripDetails = Trip::select('id', 'from_location_id', 'to_location_id', 'date', 'price')->get();
+        return view('seat_allocations.create', compact('trips', 'users', 'tripDetails'));
     }
 
     /**
@@ -36,12 +38,18 @@ class SeatAllocationController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'trip_id' => 'required|exists:trips,id',
-            'seat_number' => 'required|integer',
+            'seat_number' => 'required|integer|min:1',
         ]);
-
-        SeatAllocation::create($validatedData);
-
-        return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation created successfully');
+    
+        $trip = Trip::findOrFail($validatedData['trip_id']);
+    
+        if ($trip->available_seats > 0 && $validatedData['seat_number'] > 0 && $validatedData['seat_number'] <= $trip->available_seats) {
+            SeatAllocation::create($validatedData);
+            $trip->decrement('available_seats', $validatedData['seat_number']);
+            return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation created successfully');
+        } else {
+            return redirect()->route('seat-allocations.index')->with('error', 'Seat not available. Please choose another seat.');
+        }
     }
 
     /**
@@ -73,12 +81,17 @@ class SeatAllocationController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'trip_id' => 'required|exists:trips,id',
-            'seat_number' => 'required|integer',
+            'seat_number' => 'required|integer|min:1',
         ]);
 
-        $seatAllocation->update($validatedData);
+        $trip = Trip::findOrFail($validatedData['trip_id']);
 
-        return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation updated successfully');
+        if ($trip->available_seats > 0 && $validatedData['seat_number'] > 0 && $validatedData['seat_number'] <= $trip->available_seats) {
+            $seatAllocation->update($validatedData);
+            return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation updated successfully');
+        } else {
+            return redirect()->route('seat-allocations.index')->with('error', 'Seat not available. Please choose another seat.');
+        }
     }
 
     /**
