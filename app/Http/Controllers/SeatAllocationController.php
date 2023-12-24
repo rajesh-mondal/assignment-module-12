@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\SeatAllocation;
 
 class SeatAllocationController extends Controller
 {
@@ -11,7 +14,8 @@ class SeatAllocationController extends Controller
      */
     public function index()
     {
-        //
+        $seatAllocations = SeatAllocation::all();
+        return view('seat_allocations.index', compact('seatAllocations'));
     }
 
     /**
@@ -19,7 +23,9 @@ class SeatAllocationController extends Controller
      */
     public function create()
     {
-        //
+        $trips = Trip::all();
+        $users = User::all();
+        return view('seat_allocations.create', compact('trips', 'users'));
     }
 
     /**
@@ -27,7 +33,15 @@ class SeatAllocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'trip_id' => 'required|exists:trips,id',
+            'seat_number' => 'required|integer',
+        ]);
+
+        SeatAllocation::create($validatedData);
+
+        return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation created successfully');
     }
 
     /**
@@ -43,7 +57,10 @@ class SeatAllocationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $seatAllocation = SeatAllocation::findOrFail($id);
+        $trips = Trip::all();
+        $users = User::all();
+        return view('seat_allocations.edit', compact('seatAllocation', 'trips', 'users'));
     }
 
     /**
@@ -51,7 +68,17 @@ class SeatAllocationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $seatAllocation = SeatAllocation::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'trip_id' => 'required|exists:trips,id',
+            'seat_number' => 'required|integer',
+        ]);
+
+        $seatAllocation->update($validatedData);
+
+        return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation updated successfully');
     }
 
     /**
@@ -59,6 +86,9 @@ class SeatAllocationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $seatAllocation = SeatAllocation::findOrFail($id);
+        $seatAllocation->delete();
+
+        return redirect()->route('seat-allocations.index')->with('success', 'Seat allocation deleted successfully');
     }
 }

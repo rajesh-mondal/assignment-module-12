@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/trips">Trips</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/seat-allocations">Bookings</a>
+                    </li>
                 </ul>
             </div>
         </div>
