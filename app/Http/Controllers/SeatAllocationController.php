@@ -68,7 +68,9 @@ class SeatAllocationController extends Controller
         $seatAllocation = SeatAllocation::findOrFail($id);
         $trips = Trip::all();
         $users = User::all();
-        return view('seat_allocations.edit', compact('seatAllocation', 'trips', 'users'));
+
+        $tripDetails = Trip::select('id', 'from_location_id', 'to_location_id', 'date', 'price')->get();
+        return view('seat_allocations.edit', compact('seatAllocation', 'trips', 'users', 'tripDetails'));
     }
 
     /**

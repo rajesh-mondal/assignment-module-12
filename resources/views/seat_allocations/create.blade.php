@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-4">Create Seat Allocation</h1>
+    <h2 class="mb-4">Create Booking</h2>
 
     @if($errors->any())
         <div class="alert alert-danger">

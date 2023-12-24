@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-4">Edit Seat Allocation</h1>
+    <h2 class="mb-4">Edit Booking</h2>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -21,16 +21,20 @@
             <label for="user_id" class="form-label">User:</label>
             <select class="form-control" name="user_id" required>
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}" {{ $user->id == $seatAllocation->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
+                    <option value="{{ $user->id }}" {{ $user->id == $seatAllocation->user_id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                    </option>
                 @endforeach
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="trip_id" class="form-label">Trip:</label>
-            <select class="form-control" name="trip_id" required>
-                @foreach ($trips as $trip)
-                    <option value="{{ $trip->id }}" {{ $trip->id == $seatAllocation->trip_id ? 'selected' : '' }}>{{ $trip->id }}</option>
+        <div class="form-group">
+            <label for="trip_id">Select Trip</label>
+            <select name="trip_id" id="trip_id" class="form-control">
+                @foreach ($tripDetails as $trip)
+                    <option value="{{ $trip->id }}" {{ $trip->id == $seatAllocation->trip_id ? 'selected' : '' }}>
+                        {{ $trip->fromLocation->name }} to {{ $trip->toLocation->name }} on {{ $trip->date }} (Price: {{ $trip->price }})
+                    </option>
                 @endforeach
             </select>
         </div>

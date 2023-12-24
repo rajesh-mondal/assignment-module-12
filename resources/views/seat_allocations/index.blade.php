@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-4 d-flex justify-content-between align-items-center">
-        Seat Allocations
+    <h2 class="mb-4 d-flex justify-content-between align-items-center">
+        Booking List
         <a href="{{ route('seat-allocations.create') }}" class="btn btn-primary">Add Booking</a>
-    </h1>
+    </h2>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -23,8 +23,10 @@
             <tr>
                 <th>ID</th>
                 <th>User</th>
-                <th>Trip</th>
-                <th>Seat Number</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Total Seat</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,7 +35,9 @@
                 <tr>
                     <td>{{ $seatAllocation->id }}</td>
                     <td>{{ $seatAllocation->user->name }}</td>
-                    <td>{{ $seatAllocation->trip->id }}</td>
+                    <td>{{ $seatAllocation->trip->fromLocation->name }}</td>
+                    <td>{{ $seatAllocation->trip->toLocation->name }}</td>
+                    <td>{{ $seatAllocation->trip->date }}</td>
                     <td>{{ $seatAllocation->seat_number }}</td>
                     <td>
                         <a href="{{ route('seat-allocations.edit', $seatAllocation->id) }}" class="btn btn-sm btn-primary">Edit</a>
