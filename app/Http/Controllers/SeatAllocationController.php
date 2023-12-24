@@ -42,6 +42,9 @@ class SeatAllocationController extends Controller
         ]);
     
         $trip = Trip::findOrFail($validatedData['trip_id']);
+
+        $price = $validatedData['seat_number'] * $trip->price;
+        $validatedData['price'] = $price;
     
         if ($trip->available_seats > 0 && $validatedData['seat_number'] > 0 && $validatedData['seat_number'] <= $trip->available_seats) {
             SeatAllocation::create($validatedData);
@@ -87,6 +90,9 @@ class SeatAllocationController extends Controller
         ]);
 
         $trip = Trip::findOrFail($validatedData['trip_id']);
+
+        $price = $validatedData['seat_number'] * $trip->price;
+        $validatedData['price'] = $price;
 
         if ($trip->available_seats > 0 && $validatedData['seat_number'] > 0 && $validatedData['seat_number'] <= $trip->available_seats) {
             $seatAllocation->update($validatedData);

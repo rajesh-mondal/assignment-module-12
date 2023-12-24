@@ -27,6 +27,7 @@
                 <th>To</th>
                 <th>Date</th>
                 <th>Total Seat</th>
+                <th>Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -39,6 +40,7 @@
                     <td>{{ $seatAllocation->trip->toLocation->name }}</td>
                     <td>{{ $seatAllocation->trip->date }}</td>
                     <td>{{ $seatAllocation->seat_number }}</td>
+                    <td>{{ $seatAllocation->price }}</td>
                     <td>
                         <a href="{{ route('seat-allocations.edit', $seatAllocation->id) }}" class="btn btn-sm btn-primary">Edit</a>
                         <form action="{{ route('seat-allocations.destroy', $seatAllocation->id) }}" method="POST" style="display:inline;">
