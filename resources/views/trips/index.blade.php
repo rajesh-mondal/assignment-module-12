@@ -13,6 +13,7 @@
                 <th>From</th>
                 <th>To</th>
                 <th>Price</th>
+                <th>Available Seats</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                     <td>{{ $trip->fromLocation->name }}</td>
                     <td>{{ $trip->toLocation->name }}</td>
                     <td>{{ $trip->price }}</td>
+                    <td>{{ $trip->available_seats }}</td>
                     <td>
                         <a href="{{ route('trips.edit', $trip->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('trips.destroy', $trip->id) }}" method="POST" style="display: inline-block;">

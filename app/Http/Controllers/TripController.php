@@ -38,6 +38,8 @@ class TripController extends Controller
             'price' => 'required|numeric',
         ]);
 
+        $validatedData['available_seats'] = 36;
+
         Trip::create($validatedData);
 
         return redirect()->route('trips.index')->with('success', 'Trip created successfully');
@@ -74,6 +76,8 @@ class TripController extends Controller
             'to_location_id' => 'required|exists:locations,id',
             'price' => 'required|numeric',
         ]);
+
+        $validatedData['available_seats'] = $trip->available_seats;
 
         $trip->update($validatedData);
 
